@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Project extends Model
 {
@@ -61,5 +62,57 @@ class Project extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    public static function storageUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        return Storage::disk('public')->url($path);
+    }
+
+    public function coverImage(): ?string
+    {
+        return static::storageUrl(
+            $this->hero_image ?? $this->thumbnail ?? $this->gallery->first()?->path
+        );
+    }
+
+    public function previewImage(): ?string
+    {
+        return static::storageUrl(
+            $this->thumbnail ?? $this->hero_image ?? $this->gallery->first()?->path
+        );
+    }
+
+    public function toPreviewArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'subtitle' => $this->subtitle,
+            'excerpt' => $this->excerpt,
+            'category' => $this->category?->name,
+            'year' => $this->year,
+            'role' => $this->role,
+            'image' => $this->previewImage(),
+            'cover' => $this->coverImage(),
+            'live_url' => $this->live_url,
+            'github_url' => $this->github_url,
+            'video_url' => $this->video_url,
+            'url' => route('projects.show', $this->slug),
+            'technologies' => $this->technologies->pluck('name'),
+            'gallery' => $this->gallery->map(fn ($item) => [
+                'path' => static::storageUrl($item->path),
+                'alt' => $item->alt ?? $this->title,
+            ]),
+        ];
     }
 }

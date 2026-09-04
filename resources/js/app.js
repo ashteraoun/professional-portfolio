@@ -2,6 +2,7 @@ import './bootstrap';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initProjectsIndex, initGalleryLightbox, initProjectShowAnimations } from './projects';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -184,3 +185,8 @@ if (!prefersReducedMotion && document.startViewTransition) {
 
 // Expose for command palette
 window.toggleTheme = toggleTheme;
+
+// Projects page modules
+initProjectsIndex();
+initGalleryLightbox();
+initProjectShowAnimations();

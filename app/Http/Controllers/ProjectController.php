@@ -12,24 +12,29 @@ class ProjectController extends Controller
 {
     public function index(Request $request): View
     {
+        $category = $request->query('category');
+        $tech = $request->query('tech');
+
         $query = Project::published()
-            ->with(['category', 'technologies'])
+            ->with(['category', 'technologies', 'gallery'])
             ->orderBy('sort_order');
 
-        if ($category = $request->query('category')) {
+        if ($category) {
             $query->whereHas('category', fn ($q) => $q->where('slug', $category));
         }
 
-        if ($tech = $request->query('tech')) {
+        if ($tech) {
             $query->whereHas('technologies', fn ($q) => $q->where('slug', $tech));
         }
 
         return view('pages.projects.index', [
-            'projects' => $query->paginate(9)->withQueryString(),
+            'projects' => $query->paginate(12)->withQueryString(),
             'categories' => ProjectCategory::orderBy('sort_order')->get(),
             'technologies' => Technology::orderBy('name')->get(),
-            'activeCategory' => $category,
-            'activeTech' => $tech,
+            'activeCategory' => $category ?? null,
+            'activeTech' => $tech ?? null,
+            'spotlightProject' => Project::published()->featured()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first()
+                ?? Project::published()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first(),
         ]);
     }
 

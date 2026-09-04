@@ -121,6 +121,65 @@
         box-shadow: 0 1px 2px rgba(0,0,0,0.04);
     }
 
+    /* Form fields — readable selects in dark & light mode */
+    .form-field {
+        @apply w-full rounded-lg border px-4 py-3 text-sm outline-none transition duration-300;
+        border-color: var(--color-border-strong);
+        background-color: var(--color-surface-elevated);
+        color: var(--color-text);
+    }
+
+    .form-field::placeholder {
+        color: var(--color-text-subtle);
+    }
+
+    .form-field:focus {
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px var(--color-accent-soft);
+    }
+
+    html:not(.dark) .form-field {
+        background-color: #ffffff;
+        color: var(--color-light-ink);
+        border-color: var(--color-light-border);
+    }
+
+    html:not(.dark) .form-field::placeholder {
+        color: #94a3b8;
+    }
+
+    .form-select {
+        appearance: none;
+        cursor: pointer;
+        padding-right: 2.75rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.875rem center;
+        background-size: 1.125rem;
+        color-scheme: dark;
+    }
+
+    html:not(.dark) .form-select {
+        color-scheme: light;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2352525b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    }
+
+    .form-select option {
+        background-color: #1e1e2a;
+        color: #f4f4f5;
+    }
+
+    html:not(.dark) .form-select option {
+        background-color: #ffffff;
+        color: #0f172a;
+    }
+
+    .form-select option:checked,
+    .form-select option:hover {
+        background-color: #0891b2;
+        color: #ffffff;
+    }
+
     .btn-primary {
         @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-all duration-300;
         background: var(--color-accent);
@@ -281,6 +340,48 @@
         @apply rounded px-1.5 py-0.5 text-sm;
         background: var(--color-accent-soft);
         color: var(--color-accent);
+    }
+
+    .filter-pill {
+        @apply inline-flex rounded-full border border-white/10 px-4 py-2 text-sm transition hover:border-accent/50;
+        color: var(--color-text-muted);
+    }
+
+    .filter-pill:hover {
+        color: var(--color-accent);
+    }
+
+    .filter-pill.is-active {
+        @apply border-accent bg-accent text-ink;
+    }
+
+    .filter-pill-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    html:not(.dark) .filter-pill {
+        border-color: var(--color-light-border);
+    }
+
+    .project-list-item.is-active .project-list-item-title {
+        color: var(--color-accent);
+    }
+
+    .project-list-item.is-active .project-list-item-arrow {
+        color: var(--color-accent);
+    }
+
+    .preview-mode-btn.is-active {
+        background: var(--color-accent);
+        color: var(--color-ink);
+    }
+
+    .lightbox.flex {
+        display: flex;
+    }
+
+    .gallery-item {
+        cursor: zoom-in;
     }
 }
 

@@ -28,7 +28,7 @@
 
                     <div>
                         <label for="project_type" class="label-mono mb-2 block">Project Type</label>
-                        <select name="project_type" id="project_type" class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
+                        <select name="project_type" id="project_type" class="form-field form-select">
                             <option value="">Select type...</option>
                             @foreach(['Website', 'SaaS', 'AI Product', 'E-commerce', 'API', 'Other'] as $type)
                                 <option value="{{ $type }}" @selected(old('project_type') === $type)>{{ $type }}</option>
@@ -39,26 +39,26 @@
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div>
                             <label for="name" class="label-mono mb-2 block">Name *</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" required class="form-field" placeholder="Your name">
                             @error('name')<p class="mt-1 text-xs text-red-400">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label for="email" class="label-mono mb-2 block">Email *</label>
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" required class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
+                            <input type="email" name="email" id="email" value="{{ old('email') }}" required class="form-field" placeholder="you@company.com">
                             @error('email')<p class="mt-1 text-xs text-red-400">{{ $message }}</p>@enderror
                         </div>
                     </div>
 
                     <div>
                         <label for="company" class="label-mono mb-2 block">Company</label>
-                        <input type="text" name="company" id="company" value="{{ old('company') }}" class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
+                        <input type="text" name="company" id="company" value="{{ old('company') }}" class="form-field" placeholder="Company name (optional)">
                     </div>
 
                     <div class="grid gap-5 sm:grid-cols-2">
                         <div>
                             <label for="budget_range" class="label-mono mb-2 block">Budget Range</label>
-                            <select name="budget_range" id="budget_range" class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
-                                <option value="">Select...</option>
+                            <select name="budget_range" id="budget_range" class="form-field form-select">
+                                <option value="">Select budget...</option>
                                 @foreach(['< $5k', '$5k – $10k', '$10k – $25k', '$25k+'] as $budget)
                                     <option value="{{ $budget }}" @selected(old('budget_range') === $budget)>{{ $budget }}</option>
                                 @endforeach
@@ -66,8 +66,8 @@
                         </div>
                         <div>
                             <label for="timeline" class="label-mono mb-2 block">Timeline</label>
-                            <select name="timeline" id="timeline" class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent">
-                                <option value="">Select...</option>
+                            <select name="timeline" id="timeline" class="form-field form-select">
+                                <option value="">Select timeline...</option>
                                 @foreach(['ASAP', '1–2 months', '3–6 months', 'Flexible'] as $time)
                                     <option value="{{ $time }}" @selected(old('timeline') === $time)>{{ $time }}</option>
                                 @endforeach
@@ -77,17 +77,17 @@
 
                     <div>
                         <label for="message" class="label-mono mb-2 block">Message *</label>
-                        <textarea name="message" id="message" rows="5" required class="w-full rounded-lg border border-white/10 bg-transparent px-4 py-3 text-sm outline-none focus:border-accent resize-y">{{ old('message') }}</textarea>
+                        <textarea name="message" id="message" rows="5" required class="form-field resize-y min-h-[120px]" placeholder="Tell me about your project, goals, and timeline...">{{ old('message') }}</textarea>
                         @error('message')<p class="mt-1 text-xs text-red-400">{{ $message }}</p>@enderror
                     </div>
 
                     <div>
                         <label for="attachment" class="label-mono mb-2 block">Attachment (optional, max 5MB)</label>
-                        <input type="file" name="attachment" id="attachment" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" class="w-full text-sm text-muted file:mr-4 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-ink">
+                        <input type="file" name="attachment" id="attachment" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" class="w-full text-sm text-muted file:mr-4 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-ink file:font-medium file:cursor-pointer">
                         @error('attachment')<p class="mt-1 text-xs text-red-400">{{ $message }}</p>@enderror
                     </div>
 
-                    <button type="submit" class="btn-primary w-full sm:w-auto">Send Message</button>
+                    <button type="submit" class="btn-primary w-full sm:w-auto magnetic-btn">Send Message</button>
                 </form>
             </div>
         </div>
