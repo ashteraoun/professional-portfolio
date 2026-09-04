@@ -383,6 +383,85 @@
     .gallery-item {
         cursor: zoom-in;
     }
+
+    .filter-chip {
+        @apply inline-flex items-center rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium transition-all duration-300;
+        color: var(--color-text-muted);
+        background: var(--color-surface);
+    }
+
+    .filter-chip:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+        transform: translateY(-1px);
+    }
+
+    .filter-chip.is-active {
+        @apply border-accent bg-accent text-ink;
+        box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3);
+    }
+
+    html:not(.dark) .filter-chip {
+        border-color: var(--color-light-border);
+        background: var(--color-light-surface);
+    }
+
+    .tech-tag {
+        @apply inline-flex rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium transition-all duration-300;
+        color: var(--color-text-muted);
+    }
+
+    .tech-tag:hover {
+        border-color: var(--color-accent);
+        color: var(--color-accent);
+        background: var(--color-accent-soft);
+    }
+
+    .tech-tag.is-active {
+        @apply border-accent bg-accent/10 text-accent;
+    }
+
+    html:not(.dark) .tech-tag {
+        border-color: var(--color-light-border);
+        background: rgba(0, 0, 0, 0.03);
+    }
+
+    .modern-project-card {
+        @apply transition-all duration-500;
+    }
+
+    .modern-project-card:hover {
+        transform: translateY(-4px);
+    }
+
+    .services-dropdown-menu {
+        transform-origin: top center;
+    }
+
+    .service-dropdown-item {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-dropdown-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, var(--color-accent), #0891b2);
+        transform: scaleY(0);
+        transition: transform 0.3s ease;
+    }
+
+    .service-dropdown-item:hover::before {
+        transform: scaleY(1);
+    }
+
+    html:not(.dark) .service-dropdown-item::before {
+        background: linear-gradient(to bottom, #0891b2, #0ea5e9);
+    }
 }
 
 @utility text-accent {
