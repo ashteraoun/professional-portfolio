@@ -74,12 +74,16 @@ class ProjectAdminController extends Controller
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted.');
     }
 
-    public function destroyGallery(Project $project, ProjectGallery $gallery): RedirectResponse
+    public function destroyGallery(Project $project, ProjectGallery $gallery): RedirectResponse|\Illuminate\Http\JsonResponse
     {
         abort_unless($gallery->project_id === $project->id, 404);
 
         Storage::disk('public')->delete($gallery->path);
         $gallery->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
 
         return back()->with('success', 'Gallery image removed.');
     }
@@ -105,6 +109,9 @@ class ProjectAdminController extends Controller
         if ($request->hasFile('gallery')) {
             $sort = $project->gallery()->max('sort_order') ?? 0;
             foreach ($request->file('gallery') as $file) {
+                if (! $file || ! $file->isValid()) {
+                    continue;
+                }
                 $sort++;
                 $path = $file->store("projects/{$project->id}/gallery", 'public');
                 $project->gallery()->create([
@@ -134,7 +141,7 @@ class ProjectAdminController extends Controller
 
     private function validated(Request $request): array
     {
-        return $request->validate([
+        $data = $request->validate([
             'project_category_id' => 'nullable|exists:project_categories,id',
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
@@ -145,17 +152,31 @@ class ProjectAdminController extends Controller
             'solution' => 'nullable|string',
             'role' => 'nullable|string|max:255',
             'year' => 'nullable|integer|min:2000|max:2100',
-            'live_url' => 'nullable|url|max:500',
-            'github_url' => 'nullable|url|max:500',
-            'video_url' => 'nullable|url|max:500',
+            'live_url' => 'nullable|string|max:500',
+            'github_url' => 'nullable|string|max:500',
+            'video_url' => 'nullable|string|max:500',
             'thumbnail' => 'nullable|image|max:5120',
             'hero_image' => 'nullable|image|max:8192',
             'mobile_image' => 'nullable|image|max:5120',
+            'gallery' => 'nullable|array',
             'gallery.*' => 'nullable|file|mimes:jpg,jpeg,png,webp,gif,mp4,webm|max:10240',
-            'is_featured' => 'boolean',
-            'is_published' => 'boolean',
+            'is_featured' => 'sometimes|boolean',
+            'is_published' => 'sometimes|boolean',
             'sort_order' => 'nullable|integer|min:0',
-        ]) + [
+        ]);
+
+        foreach (['live_url', 'github_url', 'video_url'] as $urlField) {
+            if (! empty($data[$urlField]) && ! filter_var($data[$urlField], FILTER_VALIDATE_URL)) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    $urlField => 'Please enter a valid URL including https://',
+                ]);
+            }
+            if (empty($data[$urlField])) {
+                $data[$urlField] = null;
+            }
+        }
+
+        return $data + [
             'is_featured' => $request->boolean('is_featured'),
             'is_published' => $request->boolean('is_published'),
             'sort_order' => $request->input('sort_order', 0),
