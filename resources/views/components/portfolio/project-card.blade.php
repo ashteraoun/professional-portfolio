@@ -1,15 +1,21 @@
 @props(['project'])
 
-<a href="{{ route('projects.show', $project->slug) }}" class="project-card group surface-card block overflow-hidden transition hover:border-accent/30">
+<a href="{{ route('projects.show', $project->slug) }}" class="project-card group surface-card block overflow-hidden transition duration-500 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5">
     <div class="relative aspect-[16/10] overflow-hidden bg-ink-soft">
-        @if($project->thumbnail)
-            <img src="{{ asset('storage/'.$project->thumbnail) }}" alt="{{ $project->title }}" class="project-card-image h-full w-full object-cover" loading="lazy">
+        @if($project->previewImage())
+            <img src="{{ $project->previewImage() }}" alt="{{ $project->title }}" class="project-card-image h-full w-full object-cover" loading="lazy">
         @else
             <div class="flex h-full items-center justify-center bg-gradient-to-br from-accent/10 to-transparent">
                 <span class="font-display text-4xl font-medium text-accent/40">{{ substr($project->title, 0, 1) }}</span>
             </div>
         @endif
-        <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent opacity-0 transition group-hover:opacity-100"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-60"></div>
+        @if($project->live_url)
+            <span class="absolute top-4 right-4 rounded-full border border-accent/40 bg-ink/70 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent backdrop-blur-sm">Live</span>
+        @endif
+        <div class="absolute bottom-4 left-4 right-4 translate-y-2 opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+            <span class="text-xs text-accent">View case study →</span>
+        </div>
     </div>
 
     <div class="p-6 md:p-8">

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('projects', ProjectAdminController::class)->except(['show']);
+Route::delete('projects/{project}/gallery/{gallery}', [ProjectAdminController::class, 'destroyGallery'])->name('projects.gallery.destroy');
 Route::resource('blog', BlogAdminController::class)->except(['show']);
 Route::resource('services', ServiceAdminController::class)->except(['show']);
 Route::resource('packages', PackageAdminController::class)->except(['show']);
