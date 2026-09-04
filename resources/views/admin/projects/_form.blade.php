@@ -11,11 +11,12 @@
     <div class="grid gap-6 md:grid-cols-2">
         <div>
             <label class="admin-label" for="title">Title <span class="text-red-500">*</span></label>
-            <input type="text" id="title" name="title" value="{{ old('title', $project->title ?? '') }}" required class="admin-input" placeholder="Project Alpha">
+            <input type="text" id="title" name="title" value="{{ old('title', $project?->title ?? '') }}" required class="admin-input @error('title') border-red-500 @enderror" placeholder="Project Alpha">
+            @error('title')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
         <div>
             <label class="admin-label" for="subtitle">Subtitle</label>
-            <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $project->subtitle ?? '') }}" class="admin-input" placeholder="Multi-tenant SaaS platform">
+            <input type="text" id="subtitle" name="subtitle" value="{{ old('subtitle', $project?->subtitle ?? '') }}" class="admin-input" placeholder="Multi-tenant SaaS platform">
         </div>
     </div>
 
@@ -25,23 +26,23 @@
             <select id="project_category_id" name="project_category_id" class="admin-select">
                 <option value="">Select category</option>
                 @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" @selected(old('project_category_id', $project->project_category_id ?? '') == $cat->id)>{{ $cat->name }}</option>
+                    <option value="{{ $cat->id }}" @selected(old('project_category_id', $project?->project_category_id ?? '') == $cat->id)>{{ $cat->name }}</option>
                 @endforeach
             </select>
         </div>
         <div>
             <label class="admin-label" for="year">Year</label>
-            <input type="number" id="year" name="year" value="{{ old('year', $project->year ?? date('Y')) }}" class="admin-input" min="2000" max="2100">
+            <input type="number" id="year" name="year" value="{{ old('year', $project?->year ?? date('Y')) }}" class="admin-input" min="2000" max="2100">
         </div>
         <div>
             <label class="admin-label" for="role">Your Role</label>
-            <input type="text" id="role" name="role" value="{{ old('role', $project->role ?? '') }}" class="admin-input" placeholder="Lead Full-Stack Developer">
+            <input type="text" id="role" name="role" value="{{ old('role', $project?->role ?? '') }}" class="admin-input" placeholder="Lead Full-Stack Developer">
         </div>
     </div>
 
     <div>
         <label class="admin-label" for="excerpt">Short Excerpt</label>
-        <textarea id="excerpt" name="excerpt" rows="2" class="admin-textarea" placeholder="One-line summary for project cards...">{{ old('excerpt', $project->excerpt ?? '') }}</textarea>
+        <textarea id="excerpt" name="excerpt" rows="2" class="admin-textarea" placeholder="One-line summary for project cards...">{{ old('excerpt', $project?->excerpt ?? '') }}</textarea>
         <p class="admin-hint">Displayed on project cards and search results.</p>
     </div>
 </div>
@@ -59,17 +60,17 @@
     <div class="grid gap-6 lg:grid-cols-2">
         <div>
             <label class="admin-label" for="problem">Overview / Problem</label>
-            <textarea id="problem" name="problem" rows="4" class="admin-textarea" placeholder="What problem did this project solve?">{{ old('problem', $project->problem ?? '') }}</textarea>
+            <textarea id="problem" name="problem" rows="4" class="admin-textarea" placeholder="What problem did this project solve?">{{ old('problem', $project?->problem ?? '') }}</textarea>
         </div>
         <div>
             <label class="admin-label" for="challenge">Challenge</label>
-            <textarea id="challenge" name="challenge" rows="4" class="admin-textarea" placeholder="What made this difficult?">{{ old('challenge', $project->challenge ?? '') }}</textarea>
+            <textarea id="challenge" name="challenge" rows="4" class="admin-textarea" placeholder="What made this difficult?">{{ old('challenge', $project?->challenge ?? '') }}</textarea>
         </div>
     </div>
 
     <div>
         <label class="admin-label" for="solution">Solution</label>
-        <textarea id="solution" name="solution" rows="4" class="admin-textarea" placeholder="How did you approach and solve it?">{{ old('solution', $project->solution ?? '') }}</textarea>
+        <textarea id="solution" name="solution" rows="4" class="admin-textarea" placeholder="How did you approach and solve it?">{{ old('solution', $project?->solution ?? '') }}</textarea>
     </div>
 </div>
 
@@ -86,16 +87,19 @@
     <div class="grid gap-6 md:grid-cols-3">
         <div>
             <label class="admin-label" for="live_url">Live Demo URL</label>
-            <input type="url" id="live_url" name="live_url" value="{{ old('live_url', $project->live_url ?? '') }}" class="admin-input" placeholder="https://yourproject.com">
-            <p class="admin-hint">Powers live iframe preview</p>
+            <input type="text" id="live_url" name="live_url" value="{{ old('live_url', $project?->live_url ?? '') }}" class="admin-input @error('live_url') border-red-500 @enderror" placeholder="https://yourproject.com" inputmode="url" autocomplete="url">
+            @error('live_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+            <p class="admin-hint">Powers live iframe preview · include https://</p>
         </div>
         <div>
             <label class="admin-label" for="github_url">GitHub URL</label>
-            <input type="url" id="github_url" name="github_url" value="{{ old('github_url', $project->github_url ?? '') }}" class="admin-input" placeholder="https://github.com/user/repo">
+            <input type="text" id="github_url" name="github_url" value="{{ old('github_url', $project?->github_url ?? '') }}" class="admin-input @error('github_url') border-red-500 @enderror" placeholder="https://github.com/user/repo" inputmode="url" autocomplete="url">
+            @error('github_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
         <div>
             <label class="admin-label" for="video_url">Video Embed URL</label>
-            <input type="url" id="video_url" name="video_url" value="{{ old('video_url', $project->video_url ?? '') }}" class="admin-input" placeholder="https://youtube.com/embed/...">
+            <input type="text" id="video_url" name="video_url" value="{{ old('video_url', $project?->video_url ?? '') }}" class="admin-input @error('video_url') border-red-500 @enderror" placeholder="https://youtube.com/embed/..." inputmode="url" autocomplete="url">
+            @error('video_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
         </div>
     </div>
 </div>
@@ -114,7 +118,7 @@
         @foreach($technologies as $tech)
             <label class="admin-tech-item">
                 <input type="checkbox" name="technologies[]" value="{{ $tech->id }}" class="admin-checkbox"
-                    @checked(in_array($tech->id, old('technologies', isset($project) ? $project->technologies->pluck('id')->toArray() : [])))>
+                    @checked(in_array($tech->id, old('technologies', $project?->technologies?->pluck('id')->toArray() ?? [])))>
                 {{ $tech->name }}
             </label>
         @endforeach
@@ -167,15 +171,13 @@
     @if(!empty($project) && $project->gallery->isNotEmpty())
         <div>
             <p class="admin-label mb-3">Current Gallery ({{ $project->gallery->count() }})</p>
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+            <p class="admin-hint mb-3">Remove images using the buttons below after saving, or from the gallery panel under the form.</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3" id="project-gallery-grid">
                 @foreach($project->gallery as $item)
-                    <div class="admin-gallery-thumb group">
+                    <div class="admin-gallery-thumb group" data-gallery-id="{{ $item->id }}">
                         <img src="{{ \App\Models\Project::storageUrl($item->path) }}" alt="" class="h-full w-full object-cover">
                         <div class="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 group-hover:opacity-100 transition">
-                            <form action="{{ route('admin.projects.gallery.destroy', [$project, $item]) }}" method="POST">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="admin-btn-danger" onclick="return confirm('Remove this image?')">Remove</button>
-                            </form>
+                            <button type="button" class="admin-btn-danger gallery-remove-btn" data-remove-url="{{ route('admin.projects.gallery.destroy', [$project, $item]) }}">Remove</button>
                         </div>
                     </div>
                 @endforeach
@@ -193,16 +195,16 @@
 
     <div class="flex flex-wrap items-center gap-8">
         <label class="admin-checkbox-label">
-            <input type="checkbox" name="is_featured" value="1" class="admin-checkbox" @checked(old('is_featured', $project->is_featured ?? false))>
+            <input type="checkbox" name="is_featured" value="1" class="admin-checkbox" @checked(old('is_featured', $project?->is_featured ?? false))>
             Featured project
         </label>
         <label class="admin-checkbox-label">
-            <input type="checkbox" name="is_published" value="1" class="admin-checkbox" @checked(old('is_published', $project->is_published ?? true))>
+            <input type="checkbox" name="is_published" value="1" class="admin-checkbox" @checked(old('is_published', $project?->is_published ?? true))>
             Published (visible on site)
         </label>
         <div class="flex items-center gap-3">
             <label class="admin-label mb-0" for="sort_order">Sort order</label>
-            <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $project->sort_order ?? 0) }}" class="admin-input w-24" min="0">
+            <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $project?->sort_order ?? 0) }}" class="admin-input w-24" min="0">
         </div>
     </div>
 </div>

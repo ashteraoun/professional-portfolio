@@ -11,11 +11,11 @@
 @endsection
 
 @section('content')
-<form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.projects.update', $project) }}" method="POST" enctype="multipart/form-data" novalidate data-project-form>
     @csrf @method('PUT')
     @include('admin.projects._form', ['project' => $project])
 
-    <div class="sticky bottom-0 mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-lg">
+    <div class="sticky bottom-0 z-20 mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white/95 backdrop-blur px-6 py-4 shadow-lg">
         <p class="text-sm text-slate-500">Changes are saved to the database immediately on submit.</p>
         <div class="flex gap-3">
             <a href="{{ route('admin.projects.index') }}" class="admin-btn-secondary">Cancel</a>
