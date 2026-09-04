@@ -2,7 +2,6 @@
     $navLinks = [
         ['label' => 'Home', 'route' => 'home', 'hash' => null],
         ['label' => 'About', 'route' => 'about', 'hash' => null],
-        ['label' => 'Services', 'route' => 'services.index', 'hash' => null],
         ['label' => 'Projects', 'route' => 'projects.index', 'hash' => null],
         ['label' => 'Experience', 'route' => 'experience', 'hash' => null],
         ['label' => 'Blog', 'route' => 'blog.index', 'hash' => null],
@@ -26,6 +25,9 @@
                         {{ $link['label'] }}
                     </a>
                 @endforeach
+                
+                {{-- Services Dropdown --}}
+                <x-portfolio.services-dropdown />
             </nav>
 
             <div class="flex items-center gap-3">
