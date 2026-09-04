@@ -1,0 +1,18 @@
+{
+  "buildCommand": "npm run build && php artisan config:cache && php artisan route:cache",
+  "outputDirectory": "public",
+  "installCommand": "npm install && composer install --no-dev --optimize-autoloader",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.php"
+    }
+  ],
+  "env": {
+    "APP_KEY": "@app_key",
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_URL": "@app_url"
+  }
+}
