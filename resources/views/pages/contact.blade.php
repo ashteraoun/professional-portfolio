@@ -13,13 +13,13 @@
                     />
                     <dl class="space-y-4 text-sm">
                         @if(!empty($site['contact_email']))
-                            <div><dt class="label-mono mb-1">Email</dt><dd><a href="mailto:{{ $site['contact_email'] }}" class="text-accent">{{ $site['contact_email'] }}</a></dd></div>
+                            <div><dt class="label-mono mb-1">Email</dt><dd><a href="mailto:{{ $site['contact_email'] }}" class="gradient-text font-semibold">{{ $site['contact_email'] }}</a></dd></div>
                         @endif
-                        <div><dt class="label-mono mb-1">Availability</dt><dd class="text-muted">{{ $site['hero_status'] ?? '' }}</dd></div>
+                        <div><dt class="label-mono mb-1">Availability</dt><dd><span class="badge-pulse mt-1"><span class="dot"></span>{{ $site['hero_status'] ?? '' }}</span></dd></div>
                     </dl>
                 </div>
 
-                <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data" class="reveal surface-card p-6 md:p-8 space-y-5" id="contact-form">
+                <form action="{{ route('contact.store') }}" method="POST" enctype="multipart/form-data" class="reveal glow-card p-6 md:p-8 space-y-5" id="contact-form">
                     @csrf
 
                     @if(session('success'))
@@ -83,7 +83,7 @@
 
                     <div>
                         <label for="attachment" class="label-mono mb-2 block">Attachment (optional, max 5MB)</label>
-                        <input type="file" name="attachment" id="attachment" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" class="w-full text-sm text-muted file:mr-4 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-ink file:font-medium file:cursor-pointer">
+                        <input type="file" name="attachment" id="attachment" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" class="w-full text-sm text-muted file:mr-4 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:text-white file:font-medium file:cursor-pointer">
                         @error('attachment')<p class="mt-1 text-xs text-red-400">{{ $message }}</p>@enderror
                     </div>
 
