@@ -5,8 +5,8 @@
         <div class="container-site">
             {{-- Header --}}
             <div class="reveal mb-12 max-w-3xl">
-                <p class="label-mono mb-4">Portfolio</p>
-                <h1 class="display-lg mb-4">Selected work.<br><span class="text-muted">Engineered with precision.</span></h1>
+                <p class="badge-pulse mb-6"><span class="dot"></span> Portfolio</p>
+                <h1 class="display-lg mb-4"><span class="gradient-text">Selected work.</span><br><span class="text-muted">Engineered with precision.</span></h1>
                 <p class="text-lg text-muted">Explore projects with live previews, case studies, and full galleries.</p>
             </div>
 
@@ -29,7 +29,7 @@
             </div>
 
             @if($projects->isEmpty())
-                <div class="reveal surface-card p-12 text-center">
+                <div class="reveal glow-card p-12 text-center">
                     <p class="text-muted">No projects match this filter.</p>
                     <a href="{{ route('projects.index') }}" class="btn-secondary mt-6 inline-flex">Clear filters</a>
                 </div>

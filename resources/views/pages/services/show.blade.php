@@ -9,13 +9,13 @@
                 <div class="mb-6 flex items-center gap-3">
                     <p class="label-mono">Service</p>
                     @if($service->icon)
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10">
+                        <div class="icon-chip !h-10 !w-10">
                             <span class="text-xl">{{ $service->icon }}</span>
                         </div>
                     @endif
                 </div>
                 <h1 class="display-xl mb-6">
-                    {{ $service->title }}
+                    <span class="gradient-text">{{ $service->title }}</span>
                 </h1>
                 <p class="text-xl text-muted max-w-2xl">
                     {{ $service->excerpt }}
@@ -38,7 +38,7 @@
         <section class="pb-20">
             <div class="container-site">
                 <div class="reveal max-w-4xl">
-                    <div class="surface-card p-8 md:p-12">
+                    <div class="glow-card p-8 md:p-12">
                         <h2 class="font-display text-2xl font-medium mb-4">Overview</h2>
                         <div class="prose-blog text-lg text-muted">
                             <p>{{ $service->description }}</p>
@@ -55,7 +55,7 @@
             <div class="container-site">
                 <div class="reveal grid gap-6 md:grid-cols-2">
                     @if($service->problem)
-                        <div class="surface-card p-8">
+                        <div class="glow-card p-8">
                             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10">
                                 <svg class="h-6 w-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -67,7 +67,7 @@
                     @endif
                     
                     @if($service->solution)
-                        <div class="surface-card p-8">
+                        <div class="glow-card p-8">
                             <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/10">
                                 <svg class="h-6 w-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -93,9 +93,9 @@
                 
                 <div class="reveal grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($service->features as $feature)
-                        <div class="surface-card p-6 transition-all duration-300 hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-                            <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-                                <svg class="h-5 w-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="glow-card p-6">
+                            <div class="icon-chip !h-10 !w-10 mb-4">
+                                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                 </svg>
                             </div>
@@ -119,8 +119,8 @@
                     
                     <div class="space-y-6">
                         @foreach($service->process as $index => $step)
-                            <div class="surface-card p-6 md:p-8 flex gap-6">
-                                <div class="flex shrink-0 h-12 w-12 items-center justify-center rounded-full bg-accent text-ink font-display text-lg font-bold">
+                            <div class="glow-card p-6 md:p-8 flex gap-6">
+                                <div class="icon-chip !h-12 !w-12 !rounded-full shrink-0 text-lg">
                                     {{ $index + 1 }}
                                 </div>
                                 <div>
@@ -147,9 +147,7 @@
                     
                     <div class="flex flex-wrap gap-3">
                         @foreach($service->technologies as $tech)
-                            <span class="inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-muted transition hover:border-accent hover:text-accent">
-                                {{ $tech }}
-                            </span>
+                            <span class="tech-tag !px-4 !py-2 !text-sm">{{ $tech }}</span>
                         @endforeach
                     </div>
                 </div>
@@ -162,7 +160,7 @@
         <section class="pb-20">
             <div class="container-site">
                 <div class="reveal max-w-4xl">
-                    <div class="surface-card p-8 md:p-12">
+                    <div class="glow-card p-8 md:p-12">
                         <h2 class="font-display text-2xl font-medium mb-6">What You'll Get</h2>
                         <ul class="space-y-4">
                             @foreach($service->deliverables as $item)
@@ -185,8 +183,8 @@
     {{-- CTA Section --}}
     <section class="pb-32">
         <div class="container-site">
-            <div class="reveal surface-card p-8 md:p-12 text-center">
-                <h2 class="font-display text-3xl font-medium mb-4">Ready to Get Started?</h2>
+            <div class="reveal glow-card p-8 md:p-12 text-center" style="background: var(--gradient-brand-soft);">
+                <h2 class="font-display text-3xl font-medium mb-4"><span class="gradient-text">Ready to Get Started?</span></h2>
                 <p class="text-lg text-muted mb-8 max-w-2xl mx-auto">
                     Let's discuss how this service can help transform your business.
                 </p>

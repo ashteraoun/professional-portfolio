@@ -15,7 +15,7 @@
                 @if($project->category)
                     <p class="label-mono mb-4">{{ $project->category->name }} · {{ $project->year }}</p>
                 @endif
-                <h1 class="display-lg mb-4">{{ $project->title }}</h1>
+                <h1 class="display-lg mb-4"><span class="gradient-text">{{ $project->title }}</span></h1>
                 @if($project->subtitle)
                     <p class="text-xl text-muted">{{ $project->subtitle }}</p>
                 @endif
@@ -50,7 +50,7 @@
             @if($project->technologies->isNotEmpty())
                 <div class="reveal mb-12 flex flex-wrap gap-2">
                     @foreach($project->technologies as $tech)
-                        <span class="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-muted">{{ $tech->name }}</span>
+                        <span class="tech-tag">{{ $tech->name }}</span>
                     @endforeach
                 </div>
             @endif
@@ -113,7 +113,7 @@
                             <h2 class="font-display text-2xl mb-6">Architecture</h2>
                             <dl class="grid gap-4 sm:grid-cols-2">
                                 @foreach($project->architecture as $key => $value)
-                                    <div class="surface-card p-5 transition hover:border-accent/20">
+                                    <div class="glow-card p-5">
                                         <dt class="label-mono mb-2">{{ ucfirst($key) }}</dt>
                                         <dd class="text-sm">{{ is_array($value) ? implode(', ', $value) : $value }}</dd>
                                     </div>
@@ -127,8 +127,8 @@
                             <h2 class="font-display text-2xl mb-6">Features</h2>
                             <ul class="grid gap-3 sm:grid-cols-2">
                                 @foreach($project->features as $feature)
-                                    <li class="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-muted">
-                                        <span class="text-accent mt-0.5">→</span>{{ $feature }}
+                                    <li class="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm text-muted transition hover:border-accent/30">
+                                        <span class="gradient-text font-bold mt-0.5">→</span>{{ $feature }}
                                     </li>
                                 @endforeach
                             </ul>
@@ -140,9 +140,9 @@
                             <h2 class="font-display text-2xl mb-6">Results</h2>
                             <dl class="grid gap-4 sm:grid-cols-2">
                                 @foreach($project->results as $key => $value)
-                                    <div class="surface-card p-5">
+                                    <div class="glow-card p-5">
                                         <dt class="text-xs uppercase tracking-wider text-muted">{{ $key }}</dt>
-                                        <dd class="font-display mt-1 text-2xl text-accent">{{ $value }}</dd>
+                                        <dd class="gradient-number mt-1 text-2xl font-bold">{{ $value }}</dd>
                                     </div>
                                 @endforeach
                             </dl>
@@ -158,7 +158,7 @@
                 </div>
 
                 <aside class="reveal">
-                    <div class="surface-card sticky top-28 p-6 md:p-8">
+                    <div class="glow-card sticky top-28 p-6 md:p-8">
                         <h3 class="label-mono mb-6">Project Details</h3>
                         <dl class="space-y-4 text-sm">
                             @if($project->role)<div><dt class="text-muted">Role</dt><dd class="mt-1 font-medium">{{ $project->role }}</dd></div>@endif

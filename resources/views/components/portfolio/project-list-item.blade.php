@@ -11,8 +11,8 @@
     data-project-index="{{ $index }}"
     aria-pressed="{{ $active ? 'true' : 'false' }}"
 >
-    <div class="flex items-start gap-5 rounded-2xl border p-5 transition-all duration-500 {{ $active ? 'border-accent/40 bg-accent-soft/30 shadow-lg shadow-accent/5' : 'border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]' }}">
-        <span class="label-mono mt-1 shrink-0">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
+    <div class="flex items-start gap-5 rounded-2xl border p-5 transition-all duration-500 {{ $active ? 'border-accent/40 bg-accent-soft/30 shadow-lg shadow-accent/10' : 'border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]' }}">
+        <span class="gradient-number mt-1 shrink-0 text-sm font-bold">{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</span>
 
         <div class="min-w-0 flex-1">
             <div class="mb-2 flex flex-wrap items-center gap-2 text-xs">
