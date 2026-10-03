@@ -36,14 +36,6 @@ if (!prefersReducedMotion) {
     gsap.ticker.lagSmoothing(0);
 }
 
-// Navigation scroll state
-const nav = document.getElementById('site-nav');
-if (nav) {
-    const onScroll = () => nav.classList.toggle('nav-scrolled', window.scrollY > 40);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-}
-
 // Mobile menu
 const mobileToggle = document.getElementById('mobile-menu-toggle');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -53,21 +45,33 @@ mobileToggle?.addEventListener('click', () => {
     mobileMenu.setAttribute('aria-hidden', String(!open));
 });
 
-// Reveal animations
-if (!prefersReducedMotion) {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach((el) => observer.observe(el));
-} else {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
-}
+// Section reveals are explicitly enabled even when the OS requests reduced motion.
+const revealSelector = 'main article, main .glow-card, main .surface-card, main .stat-card, main h1, main h2, main form, main .container-site > .space-y-12 > section';
+const revealCandidates = document.querySelectorAll(revealSelector);
+
+revealCandidates.forEach((element) => {
+    if (element.parentElement) {
+        const siblings = [...element.parentElement.children].filter((sibling) => sibling.matches(revealSelector));
+        const index = siblings.indexOf(element);
+        if (index > 0) element.style.setProperty('--reveal-delay', `${Math.min(index * 80, 320)}ms`);
+    }
+
+    if (!element.classList.contains('reveal') && !element.closest('.reveal')) {
+        element.classList.add('reveal');
+    }
+});
+
+document.documentElement.classList.add('motion-ready');
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+reveals.forEach((el) => observer.observe(el));
 
 // Marquee pause on hover / reduced motion
 document.querySelectorAll('[data-marquee]').forEach((track) => {
