@@ -15,7 +15,7 @@
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <div class="min-h-screen flex">
         {{-- Sidebar --}}
-        <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col shadow-xl">
+        <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen shadow-xl">
             <div class="px-6 py-6 border-b border-slate-800">
                 <a href="{{ route('admin.dashboard') }}" class="text-white font-bold text-lg tracking-tight">
                     {{ config('app.name', 'Portfolio') }}
@@ -23,7 +23,7 @@
                 <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Admin Panel</p>
             </div>
 
-            <nav class="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
+            <nav class="flex-1 min-h-0 px-3 py-5 space-y-1 overflow-y-auto">
                 @php
                     $links = [
                         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'],
