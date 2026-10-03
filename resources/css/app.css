@@ -89,6 +89,10 @@
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
         }
+
+        html.motion-ready .reveal {
+            transition-duration: 0.85s !important;
+        }
     }
 }
 
@@ -279,26 +283,24 @@
         to { transform: translateX(-50%); }
     }
 
-    .reveal {
+    .motion-ready .reveal {
         opacity: 0;
-        transform: translateY(24px);
+        translate: 0 28px;
+        scale: 0.985;
+        filter: blur(4px);
+        transition:
+            opacity 0.85s var(--ease-out-expo),
+            translate 0.85s var(--ease-out-expo),
+            scale 0.85s var(--ease-out-expo),
+            filter 0.85s var(--ease-out-expo);
     }
 
-    .reveal.is-visible {
+    .motion-ready .reveal.is-visible {
         opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
-    }
-
-    .nav-scrolled {
-        @apply backdrop-blur-xl;
-        background: rgba(10, 10, 15, 0.85);
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    html:not(.dark) .nav-scrolled {
-        background: rgba(250, 250, 250, 0.85);
-        border-bottom-color: var(--color-light-border);
+        translate: 0;
+        scale: 1;
+        filter: blur(0);
+        transition-delay: var(--reveal-delay, 0ms);
     }
 
     .project-card-image {
