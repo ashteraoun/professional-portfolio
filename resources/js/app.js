@@ -73,11 +73,10 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
 reveals.forEach((el) => observer.observe(el));
 
-// Marquee pause on hover / reduced motion
+// The homepage ticker is intentionally animated; keep it moving even when reduced motion is preferred.
 document.querySelectorAll('[data-marquee]').forEach((track) => {
-    if (prefersReducedMotion) track.classList.add('paused');
     track.addEventListener('mouseenter', () => track.classList.add('paused'));
-    track.addEventListener('mouseleave', () => !prefersReducedMotion && track.classList.remove('paused'));
+    track.addEventListener('mouseleave', () => track.classList.remove('paused'));
 });
 
 // Hero glow follow (desktop only)

@@ -12,9 +12,23 @@ class BlogController extends Controller
 {
     public function index(Request $request): View
     {
+        $featuredPosts = BlogPost::published()->featured()
+            ->with('category')
+            ->latest('published_at')
+            ->limit(3)
+            ->get();
+
         $query = BlogPost::published()
             ->with(['category', 'tags', 'author'])
             ->latest('published_at');
+
+        $hasFilters = $request->filled('category')
+            || $request->filled('tag')
+            || $request->filled('q');
+
+        if (! $hasFilters && $featuredPosts->isNotEmpty()) {
+            $query->whereNotIn('id', $featuredPosts->modelKeys());
+        }
 
         if ($category = $request->query('category')) {
             $query->whereHas('category', fn ($q) => $q->where('slug', $category));
@@ -35,10 +49,7 @@ class BlogController extends Controller
             'posts' => $query->paginate(9)->withQueryString(),
             'categories' => BlogCategory::withCount('posts')->get(),
             'tags' => BlogTag::all(),
-            'featuredPosts' => BlogPost::published()->featured()
-                ->latest('published_at')
-                ->limit(3)
-                ->get(),
+            'featuredPosts' => $featuredPosts,
         ]);
     }
 
