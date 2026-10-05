@@ -11,8 +11,7 @@
 
         <div class="container-site relative z-10 py-20">
             <div class="max-w-4xl">
-                <p class="badge-pulse reveal"><span class="dot"></span> {{ $site['hero_status'] ?? 'AVAILABLE FOR SELECT PROJECTS' }}</p>
-                <h1 class="display-xl mt-6 mb-8 reveal" style="transition-delay: 0.1s">
+                <h1 class="display-xl mb-8 reveal" style="transition-delay: 0.1s">
                     <span class="gradient-text">{{ $site['hero_headline'] ?? 'Building Digital Products That Move Ideas Forward.' }}</span>
                 </h1>
                 <p class="text-lg md:text-xl text-muted max-w-2xl leading-relaxed reveal" style="transition-delay: 0.2s">

@@ -5,7 +5,6 @@
         <div class="container-site">
             {{-- Header --}}
             <div class="reveal mb-12 max-w-3xl">
-                <p class="badge-pulse mb-6"><span class="dot"></span> Portfolio</p>
                 <h1 class="display-lg mb-4"><span class="gradient-text">Selected work.</span><br><span class="text-muted">Engineered with precision.</span></h1>
                 <p class="text-lg text-muted">Explore projects with live previews, case studies, and full galleries.</p>
             </div>
