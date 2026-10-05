@@ -15,7 +15,7 @@
                         @if(!empty($site['contact_email']))
                             <div><dt class="label-mono mb-1">Email</dt><dd><a href="mailto:{{ $site['contact_email'] }}" class="gradient-text font-semibold">{{ $site['contact_email'] }}</a></dd></div>
                         @endif
-                        <div><dt class="label-mono mb-1">Availability</dt><dd><span class="badge-pulse mt-1"><span class="dot"></span>{{ $site['hero_status'] ?? '' }}</span></dd></div>
+                        <div><dt class="label-mono mb-1">Availability</dt><dd class="text-muted">{{ $site['hero_status'] ?? '' }}</dd></div>
                     </dl>
                 </div>
 
