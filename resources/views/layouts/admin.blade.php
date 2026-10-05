@@ -6,6 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Admin') — {{ config('app.name', 'Portfolio') }}</title>
+    @if(!empty($site['favicon_path'] ?? null))
+        <link rel="icon" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($site['favicon_path']) }}">
+    @endif
 
     <script>
         (() => {
@@ -24,9 +27,14 @@
         {{-- Sidebar --}}
         <aside class="admin-sidebar w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen shadow-xl">
             <div class="px-6 py-6 border-b border-slate-800">
-                <a href="{{ route('admin.dashboard') }}" class="text-white font-bold text-lg tracking-tight">
-                    {{ config('app.name', 'Portfolio') }}
-                </a>
+                <a href="{{ route('admin.dashboard') }}" class="admin-brand text-white font-bold text-lg tracking-tight">
+                    @if(!empty($site['logo_path'] ?? null))
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($site['logo_path']) }}" alt="" class="h-9 w-9 rounded-lg object-contain">
+                    @else
+                        <span class="admin-brand-mark">{{ strtoupper(substr($site['site_name'] ?? config('app.name', 'P'), 0, 1)) }}</span>
+                    @endif
+                    <span>{{ $site['site_name'] ?? config('app.name', 'Portfolio') }}</span>
+                </a>
                 <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Admin Panel</p>
             </div>
 

@@ -27,6 +27,9 @@
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,600,700|inter:400,500,600&display=swap" rel="stylesheet">
+    @if(!empty($site['favicon_path'] ?? null))
+        <link rel="icon" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($site['favicon_path']) }}">
+    @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')

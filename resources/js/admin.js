@@ -22,6 +22,33 @@ adminThemeToggle?.addEventListener('click', () => {
     syncAdminThemeControl();
 });
 
+const brandingPreviewUrls = new WeakMap();
+
+document.querySelectorAll('[data-branding-preview]').forEach((input) => {
+    input.addEventListener('change', () => {
+        const file = input.files?.[0];
+        const preview = document.querySelector(`[data-branding-preview-target="${input.dataset.brandingPreview}"]`);
+        if (!file || !preview) return;
+
+        const previousUrl = brandingPreviewUrls.get(input);
+        if (previousUrl) URL.revokeObjectURL(previousUrl);
+
+        const imageUrl = URL.createObjectURL(file);
+        brandingPreviewUrls.set(input, imageUrl);
+
+        let image = preview.querySelector('img');
+        if (!image) {
+            image = document.createElement('img');
+            image.alt = '';
+            preview.prepend(image);
+        }
+
+        image.src = imageUrl;
+        image.hidden = false;
+        preview.querySelector('[data-branding-placeholder]')?.classList.add('hidden');
+    });
+});
+
 document.querySelectorAll('[data-file-preview]').forEach((input) => {
     input.addEventListener('change', (e) => {
         const zone = input.closest('[data-file-zone]');

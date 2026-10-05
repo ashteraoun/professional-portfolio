@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        View::composer(['layouts.portfolio', 'pages.*', 'components.*'], SiteComposer::class);
+        View::composer(['layouts.portfolio', 'layouts.admin', 'layouts.guest', 'pages.*', 'components.*'], SiteComposer::class);
 
         RateLimiter::for('contact', function (Request $request) {
             return Limit::perHour(5)->by($request->ip());

@@ -67,6 +67,136 @@
         @apply mb-0.5 text-[11px] font-bold uppercase tracking-[0.16em] text-indigo-600;
     }
 
+    .admin-brand {
+        @apply flex items-center gap-3;
+    }
+
+    .admin-brand-mark {
+        @apply inline-grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white shadow-lg shadow-indigo-950/30;
+    }
+
+    .admin-settings-section-heading {
+        @apply flex items-center gap-4 px-5 py-5 sm:px-6;
+    }
+
+    .admin-settings-section-heading h2 {
+        @apply text-base font-semibold text-slate-900;
+    }
+
+    .admin-settings-section-heading p {
+        @apply mt-1 text-sm text-slate-500;
+    }
+
+    .admin-settings-heading-icon {
+        @apply inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600;
+    }
+
+    .admin-settings-heading-icon svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .admin-asset-card {
+        @apply rounded-xl border border-slate-200 bg-slate-50/70 p-4;
+    }
+
+    .admin-asset-preview {
+        position: relative;
+        display: flex;
+        height: 7rem;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: 1px dashed #cbd5e1;
+        border-radius: 0.75rem;
+        background-color: #fff;
+    }
+
+    .admin-logo-preview {
+        gap: 0.75rem;
+        background-image: radial-gradient(#e2e8f0 0.7px, transparent 0.7px);
+        background-size: 12px 12px;
+    }
+
+    .admin-logo-preview img {
+        max-width: 70%;
+        max-height: 4.5rem;
+        object-fit: contain;
+    }
+
+    .admin-logo-fallback {
+        @apply inline-grid h-12 w-12 place-items-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-xl font-bold text-white;
+    }
+
+    .admin-asset-preview-name {
+        @apply max-w-[45%] truncate font-semibold text-slate-800;
+    }
+
+    .admin-favicon-preview {
+        justify-content: flex-start;
+        gap: 0.75rem;
+        padding: 1rem;
+        background: linear-gradient(135deg, #f8fafc, #eef2ff);
+    }
+
+    .admin-favicon-preview > img,
+    .admin-favicon-placeholder {
+        width: 2.75rem;
+        height: 2.75rem;
+        object-fit: contain;
+    }
+
+    .admin-favicon-placeholder {
+        @apply inline-grid place-items-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white;
+    }
+
+    .admin-browser-tab {
+        position: absolute;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        display: flex;
+        max-width: 70%;
+        align-items: center;
+        gap: 0.45rem;
+        overflow: hidden;
+        padding: 0.45rem 0.7rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.55rem 0.55rem 0 0;
+        background: #fff;
+        color: #64748b;
+        font-size: 0.65rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .admin-browser-tab span {
+        width: 0.6rem;
+        height: 0.6rem;
+        flex: none;
+        border-radius: 2px;
+        background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    }
+
+    .admin-remove-asset {
+        @apply mt-3 flex w-fit items-center gap-2 text-xs font-medium text-rose-600;
+    }
+
+    .admin-remove-asset input {
+        @apply h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500/30;
+    }
+
+    .admin-field-error {
+        @apply mt-1.5 text-xs font-medium text-rose-600;
+    }
+
+    .admin-settings-savebar {
+        @apply sticky bottom-4 z-10 flex flex-col items-start justify-between gap-3 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-xl shadow-slate-900/10 backdrop-blur-xl sm:flex-row sm:items-center sm:px-6;
+    }
+
+    .admin-settings-savebar p {
+        @apply text-sm text-slate-500;
+    }
+
     .admin-metric-card {
         position: relative;
         overflow: hidden;
@@ -408,4 +538,48 @@ html.admin-dark .admin-metric-card::after {
 
 html.admin-dark .admin-eyebrow {
     color: #a5b4fc;
+}
+
+html.admin-dark .admin-settings-section-heading h2,
+html.admin-dark .admin-asset-preview-name {
+    color: #e2e8f0;
+}
+
+html.admin-dark .admin-settings-section-heading p,
+html.admin-dark .admin-settings-savebar p {
+    color: var(--admin-muted);
+}
+
+html.admin-dark .admin-settings-heading-icon {
+    background-color: #27335a;
+    color: #c7d2fe;
+}
+
+html.admin-dark .admin-asset-card {
+    border-color: var(--admin-border);
+    background-color: var(--admin-surface-muted);
+}
+
+html.admin-dark .admin-asset-preview {
+    border-color: #39465d;
+    background-color: #10182a;
+}
+
+html.admin-dark .admin-logo-preview {
+    background-image: radial-gradient(#26334b 0.7px, transparent 0.7px);
+}
+
+html.admin-dark .admin-favicon-preview {
+    background: linear-gradient(135deg, #182238, #20294a);
+}
+
+html.admin-dark .admin-browser-tab {
+    border-color: var(--admin-border);
+    background-color: var(--admin-surface);
+    color: var(--admin-muted);
+}
+
+html.admin-dark .admin-settings-savebar {
+    border-color: var(--admin-border);
+    background-color: rgb(18 26 44 / 94%);
 }

@@ -14,7 +14,11 @@
     <div class="container-site">
         <div class="pill-nav flex h-16 items-center justify-between px-4 shadow-lg shadow-black/10 sm:px-5">
             <a href="{{ route('home') }}" class="flex items-center gap-2 font-display text-lg font-bold tracking-tight">
-                <span class="icon-chip !h-9 !w-9 text-sm spin-slow" style="animation-duration:8s;">{{ strtoupper(substr($site['site_name'] ?? config('app.name'), 0, 1)) }}</span>
+                @if(!empty($site['logo_path'] ?? null))
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($site['logo_path']) }}" alt="" class="h-9 w-9 rounded-lg object-contain">
+                @else
+                    <span class="icon-chip !h-9 !w-9 text-sm spin-slow" style="animation-duration:8s;">{{ strtoupper(substr($site['site_name'] ?? config('app.name'), 0, 1)) }}</span>
+                @endif
                 <span class="gradient-text">{{ $site['site_name'] ?? config('app.name') }}</span>
             </a>
 
