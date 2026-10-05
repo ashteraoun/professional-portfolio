@@ -6,7 +6,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Admin') — {{ config('app.name', 'Portfolio') }}</title>
-
+
+    <script>
+        (() => {
+            const theme = localStorage.getItem('admin-theme');
+            if (theme === 'dark') document.documentElement.classList.add('admin-dark');
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
@@ -15,7 +22,7 @@
 <body class="min-h-screen bg-slate-100 text-slate-900 antialiased">
     <div class="min-h-screen flex">
         {{-- Sidebar --}}
-        <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen shadow-xl">
+        <aside class="admin-sidebar w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex md:flex-col md:sticky md:top-0 md:h-screen shadow-xl">
             <div class="px-6 py-6 border-b border-slate-800">
                 <a href="{{ route('admin.dashboard') }}" class="text-white font-bold text-lg tracking-tight">
                     {{ config('app.name', 'Portfolio') }}
@@ -73,23 +80,39 @@
 
         {{-- Main --}}
         <div class="flex-1 flex flex-col min-w-0">
-            <header class="md:hidden admin-header-bar px-4 py-3 flex items-center justify-between">
-                <span class="font-semibold text-slate-900">{{ config('app.name') }} Admin</span>
-                <a href="{{ route('admin.dashboard') }}" class="text-sm font-medium text-indigo-600">Menu</a>
-            </header>
-
-            @hasSection('header')
-                <header class="admin-header-bar">
-                    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div>
-                            @yield('header')
+            <header class="admin-header-bar sticky top-0 z-30 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-6xl mx-auto min-h-16 py-3 flex items-center justify-between gap-4">
+                    <div class="min-w-0">
+                        <p class="font-semibold text-slate-900 md:hidden">{{ config('app.name') }} <span class="text-indigo-600">Admin</span></p>
+                        <div class="hidden md:block">
+                            @hasSection('header')
+                                @yield('header')
+                            @else
+                                <h1 class="admin-page-title">Content management</h1>
+                            @endif
                         </div>
-                        @hasSection('actions')
-                            <div class="flex items-center gap-2 shrink-0">@yield('actions')</div>
-                        @endif
-                    </div>
-                </header>
-            @endif
+                    </div>
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        @hasSection('actions')
+                            <div class="flex items-center gap-2 shrink-0">@yield('actions')</div>
+                        @endif
+                        <button type="button" id="admin-theme-toggle" class="admin-theme-toggle" aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode">
+                            <svg class="admin-theme-sun hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                            <svg class="admin-theme-moon h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"/></svg>
+                            <span class="hidden sm:inline" data-admin-theme-label>Dark mode</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <nav class="admin-mobile-nav md:hidden" aria-label="Admin navigation">
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}">Dashboard</a>
+                <a href="{{ route('admin.projects.index') }}" class="{{ request()->routeIs('admin.projects.*') ? 'is-active' : '' }}">Projects</a>
+                <a href="{{ route('admin.services.index') }}" class="{{ request()->routeIs('admin.services.*') ? 'is-active' : '' }}">Services</a>
+                <a href="{{ route('admin.blog.index') }}" class="{{ request()->routeIs('admin.blog.*') ? 'is-active' : '' }}">Blog</a>
+                <a href="{{ route('admin.messages.index') }}" class="{{ request()->routeIs('admin.messages.*') ? 'is-active' : '' }}">Messages</a>
+                <a href="{{ route('admin.settings.edit') }}" class="{{ request()->routeIs('admin.settings.*') ? 'is-active' : '' }}">Settings</a>
+            </nav>
 
             @if (session('success'))
                 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">

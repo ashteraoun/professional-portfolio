@@ -1,5 +1,27 @@
 // Minimal admin scripts — no portfolio theme/dark mode
 
+const adminThemeToggle = document.getElementById('admin-theme-toggle');
+const adminThemeLabel = adminThemeToggle?.querySelector('[data-admin-theme-label]');
+
+function syncAdminThemeControl() {
+    const isDark = document.documentElement.classList.contains('admin-dark');
+    if (!adminThemeToggle) return;
+
+    adminThemeToggle.setAttribute('aria-pressed', String(isDark));
+    adminThemeToggle.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+    adminThemeToggle.title = `Switch to ${isDark ? 'light' : 'dark'} mode`;
+    if (adminThemeLabel) adminThemeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+    adminThemeToggle.querySelector('.admin-theme-sun')?.classList.toggle('hidden', !isDark);
+    adminThemeToggle.querySelector('.admin-theme-moon')?.classList.toggle('hidden', isDark);
+}
+
+syncAdminThemeControl();
+adminThemeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('admin-dark');
+    localStorage.setItem('admin-theme', isDark ? 'dark' : 'light');
+    syncAdminThemeControl();
+});
+
 document.querySelectorAll('[data-file-preview]').forEach((input) => {
     input.addEventListener('change', (e) => {
         const zone = input.closest('[data-file-zone]');
