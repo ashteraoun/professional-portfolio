@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Package;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PackageController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.packages', [
+        return Inertia::render('Portfolio', [
+            'page' => 'packages',
             'packages' => Package::published()
                 ->with('features')
                 ->orderBy('sort_order')

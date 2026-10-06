@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ExperienceController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.experience', [
+        return Inertia::render('Portfolio', [
+            'page' => 'experience',
             'experiences' => Experience::published()
                 ->orderByDesc('started_at')
                 ->get(),

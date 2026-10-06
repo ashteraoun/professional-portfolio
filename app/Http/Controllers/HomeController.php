@@ -8,13 +8,15 @@ use App\Models\Service;
 use App\Models\SkillCategory;
 use App\Models\Technology;
 use App\Models\Testimonial;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.home', [
+        return Inertia::render('Portfolio', [
+            'page' => 'home',
             'featuredProjects' => Project::published()->featured()
                 ->with(['category', 'technologies'])
                 ->orderBy('sort_order')

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class PortfolioPagesTest extends TestCase
@@ -18,17 +19,27 @@ class PortfolioPagesTest extends TestCase
 
     public function test_home_page_loads(): void
     {
-        $this->get('/')->assertOk()->assertSee('Building Digital Products');
+        $this->get('/')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Portfolio')
+            ->where('page', 'home')
+            ->has('featuredProjects'));
     }
 
     public function test_projects_index_loads(): void
     {
-        $this->get('/projects')->assertOk()->assertSee('Project Alpha');
+        $this->get('/projects')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Portfolio')
+            ->where('page', 'projects-index')
+            ->has('projects.data')
+            ->where('projects.data.0.slug', 'project-alpha'));
     }
 
     public function test_project_detail_loads(): void
     {
-        $this->get('/projects/project-alpha')->assertOk()->assertSee('Project Alpha');
+        $this->get('/projects/project-alpha')->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->component('Portfolio')
+            ->where('page', 'project-show')
+            ->where('project.slug', 'project-alpha'));
     }
 
     public function test_contact_form_submission(): void

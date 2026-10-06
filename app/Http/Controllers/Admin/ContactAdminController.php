@@ -6,24 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ContactAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.messages.index', [
+        return Inertia::render('Admin', [
+            'page' => 'messages-index',
             'messages' => Contact::latest()->paginate(20),
         ]);
     }
 
-    public function show(Contact $contact): View
+    public function show(Contact $contact): Response
     {
         if ($contact->status === 'unread') {
             $contact->update(['status' => 'read']);
         }
 
-        return view('admin.messages.show', ['message' => $contact]);
+        return Inertia::render('Admin', [
+            'page' => 'message-show',
+            'message' => $contact,
+        ]);
     }
 
     public function update(Request $request, Contact $contact): RedirectResponse

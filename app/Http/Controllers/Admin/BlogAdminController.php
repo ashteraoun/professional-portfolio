@@ -9,20 +9,31 @@ use App\Models\BlogTag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class BlogAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.blog.index', [
-            'posts' => BlogPost::with('category')->latest()->paginate(15),
+        return Inertia::render('Admin', [
+            'page' => 'resource-index',
+            'resource' => 'blog',
+            'title' => 'Blog Posts',
+            'createUrl' => route('admin.blog.create'),
+            'records' => BlogPost::with('category')->latest()->paginate(15),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.blog.create', [
+        return Inertia::render('Admin', [
+            'page' => 'resource-form',
+            'resource' => 'blog',
+            'title' => 'New Post',
+            'action' => route('admin.blog.store'),
+            'indexUrl' => route('admin.blog.index'),
+            'post' => null,
             'categories' => BlogCategory::all(),
             'tags' => BlogTag::all(),
         ]);
@@ -39,9 +50,14 @@ class BlogAdminController extends Controller
         return redirect()->route('admin.blog.index')->with('success', 'Post created.');
     }
 
-    public function edit(BlogPost $blog): View
+    public function edit(BlogPost $blog): Response
     {
-        return view('admin.blog.edit', [
+        return Inertia::render('Admin', [
+            'page' => 'resource-form',
+            'resource' => 'blog',
+            'title' => 'Edit Post',
+            'action' => route('admin.blog.update', $blog),
+            'indexUrl' => route('admin.blog.index'),
             'post' => $blog->load('tags'),
             'categories' => BlogCategory::all(),
             'tags' => BlogTag::all(),

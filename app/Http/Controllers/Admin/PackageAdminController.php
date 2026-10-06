@@ -7,18 +7,27 @@ use App\Models\Package;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PackageAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.packages.index', ['packages' => Package::with('features')->orderBy('sort_order')->paginate(15)]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-index', 'resource' => 'packages', 'title' => 'Packages',
+            'createUrl' => route('admin.packages.create'),
+            'records' => Package::with('features')->orderBy('sort_order')->paginate(15),
+        ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.packages.create');
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'packages', 'title' => 'New Package',
+            'action' => route('admin.packages.store'), 'indexUrl' => route('admin.packages.index'),
+            'package' => null,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -32,9 +41,13 @@ class PackageAdminController extends Controller
         return redirect()->route('admin.packages.index')->with('success', 'Package created.');
     }
 
-    public function edit(Package $package): View
+    public function edit(Package $package): Response
     {
-        return view('admin.packages.edit', ['package' => $package->load('features')]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'packages', 'title' => 'Edit Package',
+            'action' => route('admin.packages.update', $package), 'indexUrl' => route('admin.packages.index'),
+            'package' => $package->load('features'),
+        ]);
     }
 
     public function update(Request $request, Package $package): RedirectResponse

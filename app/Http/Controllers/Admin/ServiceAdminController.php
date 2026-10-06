@@ -7,18 +7,27 @@ use App\Models\Service;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ServiceAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.services.index', ['services' => Service::orderBy('sort_order')->paginate(15)]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-index', 'resource' => 'services', 'title' => 'Services',
+            'createUrl' => route('admin.services.create'),
+            'records' => Service::orderBy('sort_order')->paginate(15),
+        ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.services.create');
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'services', 'title' => 'New Service',
+            'action' => route('admin.services.store'), 'indexUrl' => route('admin.services.index'),
+            'service' => null,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -31,9 +40,13 @@ class ServiceAdminController extends Controller
         return redirect()->route('admin.services.index')->with('success', 'Service created.');
     }
 
-    public function edit(Service $service): View
+    public function edit(Service $service): Response
     {
-        return view('admin.services.edit', ['service' => $service]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'services', 'title' => 'Edit Service',
+            'action' => route('admin.services.update', $service), 'indexUrl' => route('admin.services.index'),
+            'service' => $service,
+        ]);
     }
 
     public function update(Request $request, Service $service): RedirectResponse

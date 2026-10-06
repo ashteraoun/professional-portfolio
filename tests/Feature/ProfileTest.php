@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ProfileTest extends TestCase
@@ -16,7 +17,10 @@ class ProfileTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/profile');
+            ->get('/profile')
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Profile')
+                ->where('user.id', $user->id));
 
         $response->assertOk();
     }

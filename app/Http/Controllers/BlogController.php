@@ -6,11 +6,13 @@ use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Str;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class BlogController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $featuredPosts = BlogPost::published()->featured()
             ->with('category')
@@ -45,15 +47,20 @@ class BlogController extends Controller
             });
         }
 
-        return view('pages.blog.index', [
+        return Inertia::render('Portfolio', [
+            'page' => 'blog-index',
             'posts' => $query->paginate(9)->withQueryString(),
             'categories' => BlogCategory::withCount('posts')->get(),
             'tags' => BlogTag::all(),
             'featuredPosts' => $featuredPosts,
+            'hasFilters' => $hasFilters,
+            'activeCategory' => $request->query('category'),
+            'activeTag' => $request->query('tag'),
+            'searchQuery' => $request->query('q', ''),
         ]);
     }
 
-    public function show(string $slug): View
+    public function show(string $slug): Response
     {
         $post = BlogPost::published()
             ->where('slug', $slug)
@@ -62,8 +69,10 @@ class BlogController extends Controller
 
         $post->increment('view_count');
 
-        return view('pages.blog.show', [
+        return Inertia::render('Portfolio', [
+            'page' => 'blog-show',
             'post' => $post,
+            'contentHtml' => Str::markdown($post->content),
             'relatedPosts' => BlogPost::published()
                 ->where('id', '!=', $post->id)
                 ->where('blog_category_id', $post->blog_category_id)

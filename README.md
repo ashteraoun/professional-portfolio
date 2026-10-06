@@ -1,13 +1,14 @@
 # Professional Portfolio
 
-A premium, database-driven personal portfolio for software engineers — built with Laravel 12, MySQL/SQLite, Tailwind CSS v4, GSAP, and Lenis smooth scrolling.
+A premium, database-driven personal portfolio for software engineers — built with Laravel 12, React, Inertia, MySQL/SQLite, and Tailwind CSS v4.
 
 ## Features
 
 - **Premium public site** — Hero, about, services, projects (with case studies), experience, skills, blog, packages, contact, resume, search
 - **CMS admin panel** — CRUD for projects, blog, services, packages, experience, skills, testimonials, messages, and site settings
 - **REST API** — `/api/projects`, `/api/blog`, `/api/services`, `/api/contact`, `/api/search`
-- **Interactions** — Command palette (⌘K), dark/light mode, scroll reveals, magnetic buttons, custom cursor (desktop)
+- **Interactions** — Command palette (⌘K), dark/light mode, scroll reveals, and responsive navigation
+- **React frontend** — Public, admin, authentication, and profile pages are rendered with React and Inertia while Laravel continues to handle routes, sessions, validation, and persistence
 - **Production-ready** — CSRF protection, rate limiting, validation, queued notifications, SEO metadata, structured data
 
 ## Tech Stack
@@ -16,8 +17,8 @@ A premium, database-driven personal portfolio for software engineers — built w
 |-------|------------|
 | Backend | Laravel 12, PHP 8.2+ |
 | Database | MySQL 8+ (SQLite for local dev) |
-| Frontend | Tailwind CSS v4, GSAP, Lenis |
-| Auth | Laravel Breeze |
+| Frontend | React 19, Inertia.js, Tailwind CSS v4 |
+| Auth | Laravel session authentication |
 | Build | Vite 7 |
 
 > **Note:** Laravel 13 requires PHP 8.3+. This project uses Laravel 12 on PHP 8.2.
@@ -75,15 +76,15 @@ app/
 ├── Http/Controllers/       # Public, API, Admin controllers
 ├── Models/                 # Eloquent models
 ├── Services/               # SiteSettingsService
-└── View/Composers/         # Global view data
+└── Http/Middleware/        # Shared Inertia props
 
 resources/
-├── css/app.css             # Design tokens & components
-├── js/app.js               # GSAP, Lenis, command palette
-└── views/
-    ├── layouts/portfolio.blade.php
-    ├── components/portfolio/
-    └── pages/
+├── css/                    # Public and admin design systems
+├── js/
+│   ├── app.jsx             # Inertia bootstrap with lazy page loading
+│   ├── Components.jsx      # Shared React UI
+│   └── Pages/              # Portfolio, admin, auth, and profile pages
+└── views/app.blade.php     # Inertia document shell
 
 routes/
 ├── web.php                 # Public routes
@@ -102,6 +103,8 @@ routes/
 ```bash
 php artisan test
 ```
+
+Public and admin pages use lazy-loaded Inertia page modules, so a visit downloads the shared React runtime and only the current page module. Subsequent Inertia navigation avoids full document reloads. This is a client-rendered setup; React by itself does not reduce the initial document's rendering work.
 
 ## Security
 

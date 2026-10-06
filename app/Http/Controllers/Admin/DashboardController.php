@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
 use App\Models\Contact;
 use App\Models\Project;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.dashboard', [
+        return Inertia::render('Admin', [
+            'page' => 'dashboard',
             'stats' => [
                 'projects' => Project::count(),
                 'posts' => BlogPost::count(),

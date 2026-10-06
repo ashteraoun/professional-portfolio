@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Service;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ServiceController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.services.index', [
+        return Inertia::render('Portfolio', [
+            'page' => 'services-index',
             'services' => Service::published()
                 ->with('serviceFeatures')
                 ->orderBy('sort_order')
@@ -17,13 +19,13 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function show(string $slug): View
+    public function show(string $slug): Response
     {
         $service = Service::published()
             ->where('slug', $slug)
             ->with('serviceFeatures')
             ->firstOrFail();
 
-        return view('pages.services.show', ['service' => $service]);
+        return Inertia::render('Portfolio', ['page' => 'service-show', 'service' => $service]);
     }
 }

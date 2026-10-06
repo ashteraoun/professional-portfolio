@@ -9,13 +9,14 @@ use App\Notifications\ContactReceivedNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ContactController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.contact');
+        return Inertia::render('Portfolio', ['page' => 'contact']);
     }
 
     public function store(ContactRequest $request): RedirectResponse

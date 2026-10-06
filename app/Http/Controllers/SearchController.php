@@ -7,16 +7,18 @@ use App\Models\Project;
 use App\Models\Service;
 use App\Models\Technology;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SearchController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $query = trim($request->query('q', ''));
 
         if ($query === '') {
-            return view('pages.search', [
+            return Inertia::render('Portfolio', [
+                'page' => 'search',
                 'query' => '',
                 'projects' => collect(),
                 'posts' => collect(),
@@ -25,7 +27,8 @@ class SearchController extends Controller
             ]);
         }
 
-        return view('pages.search', [
+        return Inertia::render('Portfolio', [
+            'page' => 'search',
             'query' => $query,
             'projects' => Project::published()
                 ->where('title', 'like', "%{$query}%")

@@ -11,22 +11,33 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.projects.index', [
-            'projects' => Project::with(['category', 'gallery'])->latest()->paginate(15),
+        return Inertia::render('Admin', [
+            'page' => 'resource-index',
+            'resource' => 'projects',
+            'title' => 'Projects',
+            'createUrl' => route('admin.projects.create'),
+            'records' => Project::with(['category', 'gallery'])->latest()->paginate(15),
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.projects.create', [
+        return Inertia::render('Admin', [
+            'page' => 'resource-form',
+            'resource' => 'projects',
+            'title' => 'New Project',
+            'action' => route('admin.projects.store'),
+            'indexUrl' => route('admin.projects.index'),
             'categories' => ProjectCategory::orderBy('name')->get(),
             'technologies' => Technology::orderBy('name')->get(),
+            'project' => null,
         ]);
     }
 
@@ -42,9 +53,14 @@ class ProjectAdminController extends Controller
         return redirect()->route('admin.projects.edit', $project)->with('success', 'Project created. Add gallery images below.');
     }
 
-    public function edit(Project $project): View
+    public function edit(Project $project): Response
     {
-        return view('admin.projects.edit', [
+        return Inertia::render('Admin', [
+            'page' => 'resource-form',
+            'resource' => 'projects',
+            'title' => 'Edit Project',
+            'action' => route('admin.projects.update', $project),
+            'indexUrl' => route('admin.projects.index'),
             'project' => $project->load(['technologies', 'gallery']),
             'categories' => ProjectCategory::orderBy('name')->get(),
             'technologies' => Technology::orderBy('name')->get(),

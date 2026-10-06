@@ -8,16 +8,21 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 use RuntimeException;
 
 class SettingAdminController extends Controller
 {
     public function __construct(private SiteSettingsService $settings) {}
 
-    public function edit(): View
+    public function edit(): Response
     {
-        return view('admin.settings.edit', ['settings' => $this->settings->all()]);
+        return Inertia::render('Admin', [
+            'page' => 'settings',
+            'settings' => $this->settings->all(),
+            'action' => route('admin.settings.update'),
+        ]);
     }
 
     public function update(Request $request): RedirectResponse

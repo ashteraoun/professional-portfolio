@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Experience;
 use App\Models\SkillCategory;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AboutController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('pages.about', [
+        return Inertia::render('Portfolio', [
+            'page' => 'about',
             'experiences' => Experience::published()
                 ->orderByDesc('started_at')
                 ->get(),

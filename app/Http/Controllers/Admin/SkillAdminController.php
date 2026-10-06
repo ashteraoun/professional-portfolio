@@ -7,18 +7,27 @@ use App\Models\Skill;
 use App\Models\SkillCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SkillAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.skills.index', ['categories' => SkillCategory::with('skills')->get()]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-index', 'resource' => 'skills', 'title' => 'Skills',
+            'createUrl' => route('admin.skills.create'),
+            'categoriesWithSkills' => SkillCategory::with('skills')->get(),
+        ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.skills.create', ['categories' => SkillCategory::all()]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'skills', 'title' => 'New Skill',
+            'action' => route('admin.skills.store'), 'indexUrl' => route('admin.skills.index'),
+            'categories' => SkillCategory::all(), 'skill' => null,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -28,9 +37,13 @@ class SkillAdminController extends Controller
         return redirect()->route('admin.skills.index')->with('success', 'Skill created.');
     }
 
-    public function edit(Skill $skill): View
+    public function edit(Skill $skill): Response
     {
-        return view('admin.skills.edit', ['skill' => $skill, 'categories' => SkillCategory::all()]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'skills', 'title' => 'Edit Skill',
+            'action' => route('admin.skills.update', $skill), 'indexUrl' => route('admin.skills.index'),
+            'skill' => $skill, 'categories' => SkillCategory::all(),
+        ]);
     }
 
     public function update(Request $request, Skill $skill): RedirectResponse

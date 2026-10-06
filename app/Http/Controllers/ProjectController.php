@@ -6,11 +6,12 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Technology;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
         $category = $request->query('category');
         $tech = $request->query('tech');
@@ -27,18 +28,25 @@ class ProjectController extends Controller
             $query->whereHas('technologies', fn ($q) => $q->where('slug', $tech));
         }
 
-        return view('pages.projects.index', [
-            'projects' => $query->paginate(12)->withQueryString(),
+        $projects = $query->paginate(12)->withQueryString();
+        $projects->through(fn (Project $project) => [
+            ...$project->toArray(),
+            'preview' => $project->toPreviewArray(),
+        ]);
+
+        return Inertia::render('Portfolio', [
+            'page' => 'projects-index',
+            'projects' => $projects,
             'categories' => ProjectCategory::orderBy('sort_order')->get(),
             'technologies' => Technology::orderBy('name')->get(),
             'activeCategory' => $category ?? null,
             'activeTech' => $tech ?? null,
-            'spotlightProject' => Project::published()->featured()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first()
-                ?? Project::published()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first(),
+            'spotlightProject' => ($spotlight = Project::published()->featured()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first()
+                ?? Project::published()->with(['category', 'technologies', 'gallery'])->orderBy('sort_order')->first())?->toPreviewArray(),
         ]);
     }
 
-    public function show(string $slug): View
+    public function show(string $slug): Response
     {
         $project = Project::published()
             ->where('slug', $slug)
@@ -47,8 +55,14 @@ class ProjectController extends Controller
 
         $project->increment('view_count');
 
-        return view('pages.projects.show', [
+        return Inertia::render('Portfolio', [
+            'page' => 'project-show',
             'project' => $project,
+            'heroImage' => $project->coverImage(),
+            'galleryItems' => $project->gallery->map(fn ($item) => [
+                ...$item->toArray(),
+                'url' => Project::storageUrl($item->path),
+            ]),
             'relatedProjects' => Project::published()
                 ->where('id', '!=', $project->id)
                 ->where('project_category_id', $project->project_category_id)

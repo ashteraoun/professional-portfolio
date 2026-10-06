@@ -6,18 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\Experience;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ExperienceAdminController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('admin.experience.index', ['experiences' => Experience::orderByDesc('started_at')->paginate(15)]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-index', 'resource' => 'experience', 'title' => 'Experience',
+            'createUrl' => route('admin.experience.create'),
+            'records' => Experience::orderByDesc('started_at')->paginate(15),
+        ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('admin.experience.create');
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'experience', 'title' => 'New Experience',
+            'action' => route('admin.experience.store'), 'indexUrl' => route('admin.experience.index'),
+            'experience' => null,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -27,9 +36,13 @@ class ExperienceAdminController extends Controller
         return redirect()->route('admin.experience.index')->with('success', 'Experience created.');
     }
 
-    public function edit(Experience $experience): View
+    public function edit(Experience $experience): Response
     {
-        return view('admin.experience.edit', ['experience' => $experience]);
+        return Inertia::render('Admin', [
+            'page' => 'resource-form', 'resource' => 'experience', 'title' => 'Edit Experience',
+            'action' => route('admin.experience.update', $experience), 'indexUrl' => route('admin.experience.index'),
+            'experience' => $experience,
+        ]);
     }
 
     public function update(Request $request, Experience $experience): RedirectResponse

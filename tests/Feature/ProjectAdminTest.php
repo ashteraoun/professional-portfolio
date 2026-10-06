@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class ProjectAdminTest extends TestCase
@@ -41,17 +42,18 @@ class ProjectAdminTest extends TestCase
         ]);
     }
 
-    public function test_edit_page_project_form_has_no_nested_forms(): void
+    public function test_edit_page_renders_the_react_project_form_with_project_data(): void
     {
         $admin = User::where('is_admin', true)->first();
         $project = Project::first();
 
-        $html = $this->actingAs($admin)
+        $this->actingAs($admin)
             ->get(route('admin.projects.edit', $project))
             ->assertOk()
-            ->getContent();
-
-        $this->assertStringContainsString('data-project-form', $html);
-        $this->assertStringNotContainsString('projects.gallery.destroy', $html);
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Admin')
+                ->where('page', 'resource-form')
+                ->where('resource', 'projects')
+                ->where('project.id', $project->id));
     }
 }
