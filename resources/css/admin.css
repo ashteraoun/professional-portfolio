@@ -436,6 +436,25 @@ html.admin-dark [class~="text-gray-400"] {
     color: var(--admin-muted);
 }
 
+html.admin-dark [class~="text-indigo-400"] {
+    color: #a5b4fc;
+}
+
+html.admin-dark [class~="text-indigo-600"],
+html.admin-dark [class~="text-indigo-700"],
+html.admin-dark [class~="text-indigo-800"] {
+    color: #c7d2fe;
+}
+
+html.admin-dark [class~="bg-indigo-100"] {
+    background-color: #27335a;
+}
+
+html.admin-dark [class~="hover:text-indigo-700"]:hover,
+html.admin-dark [class~="hover:text-indigo-800"]:hover {
+    color: #e0e7ff;
+}
+
 html.admin-dark [class~="border-slate-100"],
 html.admin-dark [class~="border-slate-200"],
 html.admin-dark [class~="border-gray-100"],
