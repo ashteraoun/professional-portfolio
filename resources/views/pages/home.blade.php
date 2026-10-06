@@ -7,7 +7,6 @@
         <div id="hero-glow" class="pointer-events-none absolute top-1/4 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]" aria-hidden="true"></div>
         <span class="float-slow absolute top-32 right-[8%] hidden text-5xl opacity-70 md:block" aria-hidden="true">✦</span>
         <span class="float-slower absolute bottom-40 left-[6%] hidden text-4xl opacity-60 md:block" aria-hidden="true">◆</span>
-        <span class="spin-slow absolute top-[45%] right-[18%] hidden h-14 w-14 rounded-2xl border border-white/10 md:block" style="border-image: var(--gradient-brand) 1;" aria-hidden="true"></span>
 
         <div class="container-site relative z-10 py-20">
             <div class="max-w-4xl">
