@@ -114,8 +114,12 @@ export function PortfolioLayout({ title, description, children }) {
                             <Link href="/services" className={`rounded-full px-3 py-2 text-sm font-medium text-muted transition hover:text-accent ${activePath.startsWith('/services') ? 'gradient-text font-semibold' : ''}`}>Services</Link>
                         </nav>
                         <div className="flex items-center gap-2">
-                            <button type="button" onClick={toggleTheme} className="rounded-full p-2 text-muted transition hover:text-accent" aria-label={`Switch to ${theme ? 'light' : 'dark'} mode`}>
-                                <span aria-hidden="true">{theme ? '☼' : '☾'}</span>
+                            <button type="button" onClick={toggleTheme} className="rounded-full p-2.5 text-muted transition duration-300 hover:bg-accent/10 hover:text-accent focus-visible:text-accent" aria-label={`Switch to ${theme ? 'light' : 'dark'} mode`} aria-pressed={theme}>
+                                <svg className="h-5 w-5 transition-transform duration-300 hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                    {theme
+                                        ? <><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></>
+                                        : <path d="M20.2 15.6A8.5 8.5 0 0 1 8.4 3.8 8.5 8.5 0 1 0 20.2 15.6Z" />}
+                                </svg>
                             </button>
                             <button type="button" onClick={() => setPaletteOpen(true)} className="hidden rounded-full border px-3 py-1.5 text-xs text-muted transition hover:border-accent hover:text-accent sm:inline-flex items-center gap-2" aria-label="Open command palette">
                                 <span>Search</span><kbd className="rounded bg-white/5 px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>

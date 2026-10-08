@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'whatsapp' => [
+        'access_token' => env('WHATSAPP_CLOUD_ACCESS_TOKEN'),
+        'phone_number_id' => env('WHATSAPP_CLOUD_PHONE_NUMBER_ID'),
+        'to' => env('WHATSAPP_CLOUD_TO', '923446622635'),
+        'template_name' => env('WHATSAPP_CLOUD_TEMPLATE_NAME', 'new_contact_inquiry'),
+        'template_language' => env('WHATSAPP_CLOUD_TEMPLATE_LANGUAGE', 'en_US'),
+        'api_version' => env('WHATSAPP_CLOUD_API_VERSION', 'v23.0'),
+    ],
+
 ];

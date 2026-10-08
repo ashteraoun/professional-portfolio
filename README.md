@@ -69,13 +69,28 @@ MAIL_MAILER=log             # contact notifications
 QUEUE_CONNECTION=database   # queued notifications
 ```
 
+### WhatsApp Contact Notifications
+
+Contact form submissions can be sent to the configured number through the WhatsApp Business Cloud API. Add these values to the server's `.env` file (do not put the access token in frontend/Vite variables):
+
+```env
+WHATSAPP_CLOUD_ACCESS_TOKEN=your_permanent_access_token
+WHATSAPP_CLOUD_PHONE_NUMBER_ID=your_business_phone_number_id
+WHATSAPP_CLOUD_TO=923446622635
+WHATSAPP_CLOUD_TEMPLATE_NAME=new_contact_inquiry
+WHATSAPP_CLOUD_TEMPLATE_LANGUAGE=en_US
+WHATSAPP_CLOUD_API_VERSION=v23.0
+```
+
+Create and get approval for a WhatsApp message template named `new_contact_inquiry` in WhatsApp Manager. Its body should contain one text placeholder (for example, `New portfolio inquiry:\n{{1}}\n\nPlease review and reply.`); the application fills that placeholder with the submitter's details and message. A template is required because the visitor's website form submission does not open a WhatsApp conversation with the business. After changing environment values, clear Laravel's cached config with `php artisan config:clear` (or rebuild the config cache for production). API/configuration failures are recorded in the Laravel log; contact submissions are still saved in the admin inbox.
+
 ## Project Structure
 
 ```
 app/
 ├── Http/Controllers/       # Public, API, Admin controllers
 ├── Models/                 # Eloquent models
-├── Services/               # SiteSettingsService
+├── Services/               # Site settings and WhatsApp notification services
 └── Http/Middleware/        # Shared Inertia props
 
 resources/

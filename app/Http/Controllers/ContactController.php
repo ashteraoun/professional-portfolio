@@ -6,9 +6,8 @@ use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
 use App\Models\User;
 use App\Notifications\ContactReceivedNotification;
+use App\Services\WhatsAppContactNotifier;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -19,7 +18,7 @@ class ContactController extends Controller
         return Inertia::render('Portfolio', ['page' => 'contact']);
     }
 
-    public function store(ContactRequest $request): RedirectResponse
+    public function store(ContactRequest $request, WhatsAppContactNotifier $whatsApp): RedirectResponse
     {
         $contact = Contact::create([
             ...$request->validated(),
@@ -38,6 +37,8 @@ class ContactController extends Controller
                 'size' => $file->getSize(),
             ]);
         }
+
+        $whatsApp->send($contact);
 
         User::where('is_admin', true)->each(
             fn (User $admin) => $admin->notify(new ContactReceivedNotification($contact))
